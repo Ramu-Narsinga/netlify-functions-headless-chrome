@@ -8,6 +8,8 @@ exports.handler = async (event, context, callback) => {
   try {
     const executablePath = await chromium.executablePath
 
+    console.log("about to laucnh chrome");
+
     // setup
     browser = await puppeteer.launch({
       args: chromium.args,
@@ -17,7 +19,9 @@ exports.handler = async (event, context, callback) => {
 
     // Do stuff with headless chrome
     const page = await browser.newPage()
-    const targetUrl = 'https://davidwells.io'
+    const targetUrl = 'https://docsie.io'
+
+    console.log("about to visit the url", targetUrl);
 
     // Goto page and then do stuff
     await page.goto(targetUrl, {
