@@ -28,7 +28,8 @@ exports.handler = async (event, context, callback) => {
       waitUntil: ["domcontentloaded", "networkidle0"]
     })
 
-    await page.waitForSelector('#phenomic')
+    // await page.waitForSelector('#phenomic')
+    // ___gatsby
 
     theTitle = await page.title();
 
