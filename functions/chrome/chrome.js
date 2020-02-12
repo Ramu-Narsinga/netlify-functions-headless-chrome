@@ -35,6 +35,17 @@ exports.handler = async (event, context, callback) => {
 
     console.log('done on page', theTitle)
 
+    const screenshot = await page.screenshot({ encoding: 'binary' });
+
+    return callback(null, {
+      statusCode: 200,
+      body: JSON.stringify({
+        title: theTitle,
+        message: `Complete screenshot of ${pageToScreenshot}`,
+        buffer: screenshot
+      })
+    })
+
   } catch (error) {
     console.log('error', error)
     return callback(null, {
@@ -49,11 +60,4 @@ exports.handler = async (event, context, callback) => {
       await browser.close()
     }
   }
-
-  return callback(null, {
-    statusCode: 200,
-    body: JSON.stringify({
-      title: theTitle,
-    })
-  })
 }
