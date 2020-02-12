@@ -8,7 +8,7 @@ exports.handler = async (event, context, callback) => {
   try {
     const executablePath = await chromium.executablePath
 
-    console.log("about to laucnh chrome");
+    console.log("about to laucnh chrome with url", event.queryStringParameters);
 
     // setup
     browser = await puppeteer.launch({
@@ -19,7 +19,10 @@ exports.handler = async (event, context, callback) => {
 
     // Do stuff with headless chrome
     const page = await browser.newPage()
-    const targetUrl = 'https://docsie.io'
+    let targetUrl = event.queryStringParameters.url;
+
+    if (!targetUrl)
+      targetUrl = 'https://docsie.io';
 
     console.log("about to visit the url", targetUrl);
 
@@ -35,7 +38,7 @@ exports.handler = async (event, context, callback) => {
 
     console.log('done on page', theTitle)
 
-    const screenshot = await page.screenshot({ encoding: 'binary' });
+    const screenshot = await page.screenshot({ encoding: 'base64', type: 'jpeg' });
 
     return callback(null, {
       statusCode: 200,
