@@ -20,23 +20,25 @@ exports.handler = async (event, context, callback) => {
     // Do stuff with headless chrome
     const page = await browser.newPage()
     let targetUrl = event.queryStringParameters.url;
+    let domContent = event.queryStringParameters.domContent ? 
+                      event.queryStringParameters.domContent : 
+                      "<html><head></head><body>Please pass DOM content as part of query params</body></html>";
 
-    if (!targetUrl)
-      targetUrl = 'https://docsie.io';
+    if (targetUrl) {
+      // targetUrl = 'https://docsie.io';
+      console.log("about to visit the url", targetUrl);
+      // Goto page and then do stuff
+      await page.goto(targetUrl, {
+        waitUntil: ["domcontentloaded", "networkidle0"]
+      })
 
-    // console.log("about to visit the url", targetUrl);
+      targetUrl = "";
+    } else {
+      console.log("about to set content and preparing for screenshot");
+      await page.setContent(domContent, {waitUntil: 'networkidle0'});
 
-    // Goto page and then do stuff
-    // await page.goto(targetUrl, {
-    //   waitUntil: ["domcontentloaded", "networkidle0"]
-    // })
-
-    console.log("about to set content and preparing for screenshot");
-
-    await page.setContent('<html><head><title>HTML Content Set</title></head><body>This is a body with html content only</body></html>', {waitUntil: 'networkidle0'});
-
-    // await page.waitForSelector('#phenomic')
-    // ___gatsby
+      domContent = "";
+    }
 
     theTitle = await page.title();
 
