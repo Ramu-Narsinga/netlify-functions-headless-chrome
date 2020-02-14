@@ -6,9 +6,28 @@ exports.handler = async (event, context, callback) => {
   let browser = null
   console.log('spawning chrome headless')
   try {
+    // Only allow POST
+    if (event.httpMethod !== "POST") {
+      return { 
+        statusCode: 405, 
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
+        body: "Method Not Allowed" 
+      };
+    }
+
+    const params = JSON.parse(event.body);
+    let targetUrl = params.url;
+    let domContent = params.domContent ? 
+                      params.domContent : 
+                      "<html><head></head><body>Please pass DOM content as part of query params</body></html>";
+
+
     const executablePath = await chromium.executablePath
 
-    console.log("about to laucnh chrome with url", event.queryStringParameters);
+    console.log("about to laucnh chrome with url", params);
 
     // setup
     browser = await puppeteer.launch({
@@ -19,11 +38,7 @@ exports.handler = async (event, context, callback) => {
 
     // Do stuff with headless chrome
     const page = await browser.newPage()
-    let targetUrl = event.queryStringParameters.url;
-    let domContent = event.queryStringParameters.domContent ? 
-                      decodeURIComponent(event.queryStringParameters.domContent) : 
-                      "<html><head></head><body>Please pass DOM content as part of query params</body></html>";
-
+    
     if (targetUrl) {
       // targetUrl = 'https://docsie.io';
       console.log("about to visit the url", targetUrl);
