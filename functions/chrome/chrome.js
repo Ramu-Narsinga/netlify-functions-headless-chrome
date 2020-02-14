@@ -72,6 +72,7 @@ exports.handler = async (event, context, callback) => {
 
     return callback(null, {
       statusCode: 200,
+      status: "ok",
       // headers: {
       //   'Access-Control-Allow-Origin': '*',
       //   'Access-Control-Allow-Credentials': true,
@@ -92,6 +93,7 @@ exports.handler = async (event, context, callback) => {
     console.log('error', error)
     return callback(null, {
       statusCode: 500,
+      status: "ok",
       // headers: {
       //   'Access-Control-Allow-Origin': '*',
       //   'Access-Control-Allow-Credentials': true,
