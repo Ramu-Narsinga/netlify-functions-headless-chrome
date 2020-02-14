@@ -21,7 +21,7 @@ exports.handler = async (event, context, callback) => {
     const page = await browser.newPage()
     let targetUrl = event.queryStringParameters.url;
     let domContent = event.queryStringParameters.domContent ? 
-                      event.queryStringParameters.domContent : 
+                      decodeURIComponent(event.queryStringParameters.domContent) : 
                       "<html><head></head><body>Please pass DOM content as part of query params</body></html>";
 
     if (targetUrl) {
