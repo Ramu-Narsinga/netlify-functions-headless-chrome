@@ -48,6 +48,10 @@ exports.handler = async (event, context, callback) => {
 
     return callback(null, {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       body: JSON.stringify({
         title: theTitle,
         message: `Complete screenshot of ${targetUrl}`,
@@ -59,6 +63,10 @@ exports.handler = async (event, context, callback) => {
     console.log('error', error)
     return callback(null, {
       statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       body: JSON.stringify({
         error: error
       })
