@@ -5,15 +5,24 @@ exports.handler = async (event, context, callback) => {
   let theTitle = null
   let browser = null
   console.log('spawning chrome headless')
+  let headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Methods': '*',
+    'Access-Control-Max-Age': '2592000',
+    'Access-Control-Allow-Credentials': 'true',
+  }
   try {
     // Only allow POST
     if (event.httpMethod !== "POST") {
       return { 
         statusCode: 405, 
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
+        // headers: {
+        //   'Access-Control-Allow-Origin': '*',
+        //   'Access-Control-Allow-Credentials': true,
+        // },
+        headers,
         body: "Method Not Allowed" 
       };
     }
@@ -63,10 +72,11 @@ exports.handler = async (event, context, callback) => {
 
     return callback(null, {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
+      // headers: {
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Access-Control-Allow-Credentials': true,
+      // },
+      headers,
       body: JSON.stringify(
         // {
         // title: theTitle,
@@ -82,10 +92,11 @@ exports.handler = async (event, context, callback) => {
     console.log('error', error)
     return callback(null, {
       statusCode: 500,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
+      // headers: {
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Access-Control-Allow-Credentials': true,
+      // },
+      headers,
       body: JSON.stringify({
         error: error
       })
