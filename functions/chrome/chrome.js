@@ -67,11 +67,15 @@ exports.handler = async (event, context, callback) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true,
       },
-      body: JSON.stringify({
-        title: theTitle,
-        message: `Complete screenshot of ${targetUrl}`,
-        buffer: screenshot
-      })
+      body: JSON.stringify(
+        // {
+        // title: theTitle,
+        // message: `Complete screenshot of ${targetUrl}`,
+        // buffer: screenshot
+
+      // }
+      params
+      )
     })
 
   } catch (error) {

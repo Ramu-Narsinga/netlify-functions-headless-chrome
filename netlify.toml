@@ -5,3 +5,7 @@
   publish = "build"
   # Location of built function code
   functions = "functions-build"
+[[headers]]
+  for = "/*"
+  [headers.values]
+  Access-Control-Allow-Origin = "*"
