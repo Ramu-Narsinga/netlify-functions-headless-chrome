@@ -24,12 +24,16 @@ exports.handler = async (event, context, callback) => {
     if (!targetUrl)
       targetUrl = 'https://docsie.io';
 
-    console.log("about to visit the url", targetUrl);
+    // console.log("about to visit the url", targetUrl);
 
     // Goto page and then do stuff
-    await page.goto(targetUrl, {
-      waitUntil: ["domcontentloaded", "networkidle0"]
-    })
+    // await page.goto(targetUrl, {
+    //   waitUntil: ["domcontentloaded", "networkidle0"]
+    // })
+
+    console.log("about to set content and preparing for screenshot");
+
+    await page.setContent('<html><head><title>HTML Content Set</title></head><body>This is a body with html content only</body></html>', {waitUntil: 'networkidle0'});
 
     // await page.waitForSelector('#phenomic')
     // ___gatsby
